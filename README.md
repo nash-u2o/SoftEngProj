@@ -8,8 +8,8 @@ It is important to understand the basics of how git works. These are some of the
 * Branches
 * Fetch
 * Merge
-* Pull - This is a combination of Fetch and Merge. Either this or Fetch and Merge should be done every time you start doing any work so the code you have stays up to date with what is in the Git
-* Push - understand what is upstream (what you are pushing to)
+* Pull - This is a combination of Fetch and Merge. Either use this or Fetch and Merge every time you start doing any work so the code you have stays up to date with what is in the Git
+* Push - understand what is upstream (what you are pushing to). Only push when your changes produce a stable build
 ## Conda
 To ensure that we are all using the same packages, we will use [Conda](https://docs.anaconda.com/free/miniconda/index.html). This is a pretty intuitive environment management tool
 ### Conda Environment Setup
@@ -28,3 +28,5 @@ The environment can be set up by running `conda env create -f env.yml`
 [Git](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git#using-git)
 
 [Django](https://docs.djangoproject.com/en/5.0/)
+
+This is a [decently descriptive article](https://medium.com/django-unleashed/django-project-structure-a-comprehensive-guide-4b2ddbf2b6b8) that I used to set up the project infrastructure
