@@ -8,8 +8,8 @@ It is important to understand the basics of how git works. These are some of the
 * Branches
 * Fetch
 * Merge
-* Pull
-* Push
+* Pull - This is a combination of Fetch and Merge. Either this or Fetch and Merge should be done every time you start doing any work so the code you have stays up to date with what is in the Git
+* Push - understand what is upstream (what you are pushing to)
 ## Conda
 To ensure that we are all using the same packages, we will use [Conda](https://docs.anaconda.com/free/miniconda/index.html). This is a pretty intuitive environment management tool
 ### Conda Environment Setup
