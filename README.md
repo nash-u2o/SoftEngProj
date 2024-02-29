@@ -1,8 +1,15 @@
 # SoftEngProj
 This is the git repository where we will work on our software engineering project. I will include some information that will be helpful for getting everything set up as well as some other helpful info and resources. 
 ## Git
-Obviously, we are using [Git](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git#using-git). You will need to [install](https://git-scm.com/downloads) it and become familiar with how it is used (that includes me).
+Obviously, we will using [Git](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git#using-git). You will need to [install](https://git-scm.com/downloads) it and become familiar with how it is used (that includes me).
 You will need to [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this repository
+### Git Workflow
+It is important to understand the basics of how git works. These are some of the most important things: 
+* Branches
+* Fetch
+* Merge
+* Pull
+* Push
 ## Conda
 To ensure that we are all using the same packages, we will use [Conda](https://docs.anaconda.com/free/miniconda/index.html). This is a pretty intuitive environment management tool
 ### Conda Environment Setup
