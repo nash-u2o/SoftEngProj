@@ -6,13 +6,13 @@ You will need to [clone](https://docs.github.com/en/repositories/creating-and-ma
 ## Conda
 To ensure that we are all using the same packages, we will use [Conda](https://docs.anaconda.com/free/miniconda/index.html). This is a pretty intuitive environment management tool
 ### Conda Environment Setup
-You will need to install [miniconda](https://docs.anaconda.com/free/miniconda/index.html). Install with the default options. To use it, you'll need to open the Anaconda Prompt - just type Anaconda Prompt in the search bar and it'll show up
-The environment can be set up by running 'conda env create -f env.yml'
+You will need to install [miniconda](https://docs.anaconda.com/free/miniconda/index.html). Install with the default options. To use it, you'll need to open the Anaconda Prompt - just type Anaconda Prompt in the search bar and it'll show up.
+The environment can be set up by running `conda env create -f env.yml`
 ### Other Conda Info
-* To activate the environment: 'conda activate seproject'
+* To activate the environment: `conda activate seproject`
 * The name is what the environment will be called after running the command above
 * The channels are where conda searches for the packages 
-* The dependencies are the packages we are using. If you have to add a package, follow the format of the other dependences 'package=version' 
+* The dependencies are the packages we are using. If you have to add a package, follow the format of the other dependences `package=version`
 ## Django
 [Django](https://docs.djangoproject.com/en/5.0/) is a Python package that will allow us to create websites using their modified version of HTML
 ### Resources
