@@ -16,6 +16,8 @@ The environment can be set up by running `conda env create -f env.yml`
 ## Django
 [Django](https://docs.djangoproject.com/en/5.0/) is a Python package that will allow us to create websites using their modified version of HTML
 ### Resources
-[Conda](https://docs.anaconda.com/free/miniconda/index.html)
+[Conda](https://docs.anaconda.com/free/miniconda/index.html)  
+
 [Git](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git#using-git)
+
 [Django](https://docs.djangoproject.com/en/5.0/)
