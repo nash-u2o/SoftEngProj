@@ -23,6 +23,11 @@ The environment can be set up by running `conda env create -f env.yml`
 * The dependencies are the packages we are using. If you have to add a package, follow the format of the other dependences `package=version`
 ## Django
 [Django](https://docs.djangoproject.com/en/5.0/) is a Python package that will allow us to create websites using their modified version of HTML
+### Important manage.py Commands
+* runserver to start up the server
+* collectstatic to allow the use of files in the edu_app/static directory. This will create a static directory in the root directory of the project to allow references to existing static files in the html
+* makemigrations is used to create models
+* migrate is used to apply created models to the database
 ### Resources
 [Conda](https://docs.anaconda.com/free/miniconda/index.html)  
 
