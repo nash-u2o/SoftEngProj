@@ -1,0 +1,24 @@
+.html-login{
+    height: 100%;
+}
+.login-page-layout {
+    background-image: linear-gradient(to right, #174878 0%, #f8f9fa 100%);
+    height: 100%;
+}
+.login-box {
+    width: 500px;
+    margin: auto;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    top: 15%;
+    position: relative;
+    padding-bottom: 25px;
+}
+.login-form {
+    margin-left: 50px;
+}
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
