@@ -2,9 +2,6 @@ from django.shortcuts import render
 import sqlite3
 
 def index(request):
-
-    con = sqlite3.connect('se_proj//db.sqlite3')
-
     context = { 
 
     }
