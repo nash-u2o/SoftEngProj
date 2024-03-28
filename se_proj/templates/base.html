@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,110 +6,67 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% endblock %}
-    <title>Base</title>   
+    <title>{% block title %} SAVNAC {% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .sidebar {
-        position: fixed;
-        left: -180px; /* Start the sidebar off-screen */
-        top: 0;
-        height: 100%;
-        width: 200px;
-        background-color: cornflowerblue;
-        padding: 20px;
-        transition: left 0.3s; /* Add a transition effect */
-    }
-    .sidebar:hover {
-        left: 0; /* Show the sidebar on hover */
-    }
-    .sidebar h1 {
-        margin-top:10px;
-        margin-bottom: 20px;
-    }
-    .sidebar ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-    .sidebar li {
-        margin-bottom: 10px;
-    }
-    .sidebar a {
-        text-decoration: none;
-        color: #333;
-    }
-    .sidebar a:hover {
-        color: #666;
-    }
-    .content {
-        margin-left: 200px; /* Adjust for the width of the sidebar */
-        padding: 20px;
-        overflow: auto;
-        padding-bottom: 100px;
-    }
-
-    *{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    html, body {
-        height: 100%;
-    }
-
-    #container {
-        min-height: 100%;
-    }    
-
-    #footer {
-        background-color:cornflowerblue;
-        position: relative;
-        height: 100px;
-        margin-top: 500px;
-        clear: both;
-    }
-
-    #header {
-        background-color:cornflowerblue;
-        position: relative;
-        height: 100px;
-        clear: both;
-    }
-
-</style>
-
-<body>
-    <header id="header"> 
-        <br>
+<body class="d-flex flex-column">
+    <!-- Header -->
+    <header>    
+        <nav class="navbar navbar-dark bg-dark">
+            <span class="navbar-brand mb-3 h1">
+                <!-- header content -->
+            </span>
+        </nav>
     </header>
-    <main>
-        <div class="sidebar">
-            <h1>Menu</h1>
-            <ul>
-                <li><a href="account">Account</a></li>
-                <li><a href="dashboard">Dashboard</a></li>
-                <li><a href="help">Help</a></li>
-            </ul>
-        </div>
 
-        <div class="container">
-            <div class="content">
-                {% block content %}{% endblock %}
-            </div>    
-        </div> 
-    </main>
-    
-        <footer id="footer">
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row flex-grow-1">
+            <!-- Base Sidebar -->
+            <nav class="col-md-3 col-lg-1 d-md-block bg-dark sidebar flex-column fixed-bottom">
+                <ul class="mt-5 navbar-nav flex-column flex-nowrap">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Schedule</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Grades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Assignments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </nav>
             
-        </footer>
+            <!-- Main Content -->
+                <div class="main-content">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
 
+    <!-- Footer -->
+    <footer>
+        <nav class="navbar navbar-dark bg-dark fixed-bottom">
+            <span class="navbar-brand mb-3 h1">
+                <!-- footer content -->
+            </span>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-

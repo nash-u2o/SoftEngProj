@@ -11,6 +11,12 @@ def index(request):
 def home(request):
     return render(request, 'home.html')
 
+def base(request):
+    return render(request, 'base.html')
+
+def classpage(request):
+    return render(request, 'classpage.html')
+  
 def login(request):
     if request.method == "POST":
         con = sqlite3.connect('db.sqlite3')
