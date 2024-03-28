@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Base{% endblock %}</title>   
+    {% block head_info %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock %}
+    <title>Base</title>   
 </head>
 
 <style>
@@ -83,7 +85,6 @@
 </style>
 
 <body>
-
     <header id="header"> 
         <br>
     </header>
