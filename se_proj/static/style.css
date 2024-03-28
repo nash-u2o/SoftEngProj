@@ -1,6 +1,7 @@
 /* styles.css */
 
 .sidebar {
+    padding: 20px; 
     background-color: #343a40;
     width: 200px; 
     height: 100%;  /* Set sidebar height to 100% of viewport height */

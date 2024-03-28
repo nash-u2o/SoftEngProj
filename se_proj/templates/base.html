@@ -1,6 +1,5 @@
 {% load static %}
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,12 +8,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
-
 <body class="d-flex flex-column">
     <!-- Header -->
     <header>    
         <nav class="navbar navbar-dark bg-dark">
-            <span class="navbar-brand mb-0 h1">
+            <span class="navbar-brand mb-3 h1">
                 <!-- header content -->
             </span>
         </nav>
@@ -23,29 +21,34 @@
     <!-- Main Content -->
     <div class="container-fluid">
         <div class="row flex-grow-1">
-            <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar flex-column">
-                <ul class="navbar-nav flex-column flex-nowrap">
-                    <li class="nav-item active">
+            <!-- Base Sidebar -->
+            <nav class="col-md-3 col-lg-1 d-md-block bg-dark sidebar flex-column fixed-bottom">
+                <ul class="mt-5 navbar-nav flex-column flex-nowrap">
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="#">Schedule</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Services</a>
+                        <a class="nav-link" href="#">Grades</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="#">Assignments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
                     </li>
                 </ul>
             </nav>
             
             <!-- Main Content -->
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <div class="main-content">
-                    <h1>Main Content</h1>
-                    <p>Home page</p>
+                    {% block content %}
+                    {% endblock %}
                 </div>
             </main>
         </div>
@@ -54,7 +57,7 @@
     <!-- Footer -->
     <footer>
         <nav class="navbar navbar-dark bg-dark fixed-bottom">
-            <span class="navbar-brand mb-0 h1">
+            <span class="navbar-brand mb-3 h1">
                 <!-- footer content -->
             </span>
         </nav>
@@ -62,5 +65,6 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 </html>

@@ -13,3 +13,6 @@ def home(request):
 
 def base(request):
     return render(request, 'base.html')
+
+def classpage(request):
+    return render(request, 'classpage.html')
