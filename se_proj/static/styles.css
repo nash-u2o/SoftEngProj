@@ -1,3 +1,25 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #343a40; /* Optional: Set background color */
+    color: white; /* Optional: Set text color */
+    padding: 10px; /* Optional: Add padding */
+}
+.sidebar {
+    padding: 20px; 
+    background-color: #343a40;
+    width: 200px; 
+    height: 100%;  /* Set sidebar height to 100% of viewport height */
+    overflow-y: auto; /* Add scroll for sidebar content */
+}
+
+.main-content {
+    padding: 20px;
+    height: 100vh; /* Set main content height to 100% of viewport height */
+    overflow-y: auto;
+    
+}
 .html-login{
     height: 100%;
 }

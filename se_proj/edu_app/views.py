@@ -49,3 +49,6 @@ def login(request):
             #Else some flag needs to be returned indicating invalid login
     
     return render(request, 'login.html')
+
+def text(request):
+    return render(request, 'text.html')
