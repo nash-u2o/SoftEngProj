@@ -50,6 +50,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#Session/Cookie information
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+#Set SESSION_COOKIE_HTTPONLY to True if JS doesn't need to utilize cookie. Recommended True
+#SESSION_COOKIE_HTTPONLY = True
+
 ROOT_URLCONF = 'se_proj.urls'
 
 TEMPLATES = [
