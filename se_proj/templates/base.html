@@ -6,9 +6,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% endblock %}
+
     <title>{% block title %} SAVNAC {% endblock %}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.4/dist/quill.snow.css">
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    {% endblock %}
 </head>
 <body class="d-flex flex-column">
     <!-- Header -->
@@ -58,19 +63,21 @@
 
     <!-- Footer -->
     {% block footer %}
-    <footer class='footer'>
-        <nav class="navbar navbar-dark bg-dark fixed-bottom">
-            <span class="navbar-brand mb-3 h1">
-                <!-- footer content -->
-            </span>
-        </nav>
-    </footer>
+        <footer class='footer'>
+            <nav class="navbar navbar-dark bg-dark fixed-bottom">
+                <span class="navbar-brand mb-3 h1">
+                    <!-- footer content -->
+                </span>
+            </nav>
+        </footer>
     {% endblock %}
+</body>
 
-    {% block include_scripts %}
+{% block scripts %}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    {% endblock %}
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.4/dist/quill.js"></script>
+{% endblock %}
+
 </html>
