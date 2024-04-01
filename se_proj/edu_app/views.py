@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from edu_app.models import User
 import sqlite3
 
 def index(request):
@@ -9,6 +10,8 @@ def index(request):
     return render(request, 'index.html')
 
 def home(request):
+    print(request.session['student'])
+    print(request.session['id'])
     return render(request, 'home.html')
 
 def base(request):
@@ -18,13 +21,31 @@ def classpage(request):
     return render(request, 'classpage.html')
   
 def login(request):
+    #Add Later: If session id already assigned, automatically redirect. 
+    #Logout option should redirect here and clear all session info
+    
     if request.method == "POST":
-        con = sqlite3.connect('db.sqlite3')
-        cur = con.cursor() #Cursor allows us to execute SQL statements and fetch results
         email = request.POST['user'] #Use email to log in
         password = request.POST['pass']
-        res = cur.execute(f"SELECT password FROM edu_app_user WHERE email=?", (email,))
-        if res.fetchone()[0] == password:
-            return render(request, 'home.html')
 
+        #This would allow direct querying of the DB. Might allow SQL injection so avoid
+        """ 
+        con = sqlite3.connect('db.sqlite3')
+        cur = con.cursor() #Cursor allows us to execute SQL statements and fetch results
+        res = cur.execute("SELECT password FROM edu_app_user WHERE email=?", (email,))
+        """
+
+        res = User.objects.filter(email=email)
+        if len(res) > 0:
+            if res[0].password == password: #Successful login
+                s_id =  res[0].id
+
+                request.session['student'] = True
+                request.session['id'] = s_id
+
+                #Rendering doesn't perform desired functionality. Instead, we must redirect 
+                return redirect('home')
+            
+            #Else some flag needs to be returned indicating invalid login
+    
     return render(request, 'login.html')
