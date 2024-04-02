@@ -8,9 +8,6 @@ def index(request):
 
     return render(request, 'index.html')
 
-def home(request):
-    return render(request, 'home.html')
-
 def base(request):
     return render(request, 'base.html')
 
@@ -28,3 +25,9 @@ def login(request):
             return render(request, 'home.html')
 
     return render(request, 'login.html')
+
+def assignments(request):
+    return render(request, 'assignments.html')
+
+def modules(request):   
+    return render(request,'modules.html')
