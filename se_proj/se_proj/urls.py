@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path
 import edu_app.views as views
 
-urlpatterns = [
+urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('index/', views.index, name='index'),
-    path('home/', views.home, name='home'), 
+    path('assignments/', views.assignments, name='assignments'), 
     path('base/', views.base, name='base'),
     path('classpage/', views.classpage, name='classpage'),
     path('text/', views.text, name='text'),
-    path('', views.login, name='login')
+    path('', views.login, name='login'),
+    path('modules/', views.modules, name='modules'),
+    path('home/', views.home, name='home'),
 ]
 

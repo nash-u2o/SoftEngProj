@@ -51,6 +51,11 @@ def login(request):
     
     return render(request, 'login.html')
 
+def assignments(request):
+    return render(request, 'assignments.html')
+
+def modules(request):   
+    return render(request,'modules.html')
 #To do: Make JS page insert whatever is loaded into the text field
 def text(request):
     text = ""
