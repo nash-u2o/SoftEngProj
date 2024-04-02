@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from edu_app.models import User
+from edu_app.models import User, Test
+from json import dumps
 import sqlite3
 
 def index(request):
@@ -50,5 +51,19 @@ def login(request):
     
     return render(request, 'login.html')
 
+#To do: Make JS page insert whatever is loaded into the text field
 def text(request):
+    if request.method == "POST":
+        res = Test.objects.filter(creator_id=request.session['id'])
+        data = dumps(request.POST.get('values'))
+        if len(res) == 0:
+            entry = Test(creator_id=request.session['id'], text=data)
+            entry.save()
+        else: 
+            entry = Test.objects.get(creator_id=request.session['id'])
+            entry.text = data
+            entry.save()
+    else: 
+        print(Test.objects.get(creator_id=request.session['id']).text)
+    
     return render(request, 'text.html')

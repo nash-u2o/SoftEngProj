@@ -17,8 +17,8 @@
 .main-content {
     padding: 20px;
     height: 100vh; /* Set main content height to 100% of viewport height */
-    overflow-y: auto;
-    
+    overflow-y: auto;    
+    margin: auto;
 }
 .html-login{
     height: 100%;
@@ -44,3 +44,19 @@
     margin-left: auto;
     margin-right: auto;
 }
+.submit-button {
+    background-color: rgb(34, 212, 63);  
+    border: black;
+    border-radius: 5px;
+    color: white;
+    margin-right: 5px;
+    margin-top: 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;  
+}
+#editor {
+    height: 50%;
+    width: 400px;
+}
+
