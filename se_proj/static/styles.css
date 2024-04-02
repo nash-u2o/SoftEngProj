@@ -1,3 +1,25 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #343a40; /* Optional: Set background color */
+    color: white; /* Optional: Set text color */
+    padding: 10px; /* Optional: Add padding */
+}
+.sidebar {
+    padding: 20px; 
+    background-color: #343a40;
+    width: 200px; 
+    height: 100%;  /* Set sidebar height to 100% of viewport height */
+    overflow-y: auto; /* Add scroll for sidebar content */
+}
+
+.main-content {
+    padding: 20px;
+    height: 100vh; /* Set main content height to 100% of viewport height */
+    overflow-y: auto;    
+    margin: auto;
+}
 .html-login{
     height: 100%;
 }
@@ -22,3 +44,19 @@
     margin-left: auto;
     margin-right: auto;
 }
+.submit-button {
+    background-color: rgb(34, 212, 63);  
+    border: black;
+    border-radius: 5px;
+    color: white;
+    margin-right: 5px;
+    margin-top: 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;  
+}
+#editor {
+    height: 50%;
+    width: 400px;
+}
+
