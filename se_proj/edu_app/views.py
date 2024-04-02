@@ -53,10 +53,11 @@ def login(request):
 
 #To do: Make JS page insert whatever is loaded into the text field
 def text(request):
+    text = ""
+    id_filter = Test.objects.filter(creator_id=request.session['id'])
     if request.method == "POST":
-        res = Test.objects.filter(creator_id=request.session['id'])
-        data = dumps(request.POST.get('values'))
-        if len(res) == 0:
+        data = request.POST.get('values') #Get the values sent over by user
+        if len(id_filter) == 0:
             entry = Test(creator_id=request.session['id'], text=data)
             entry.save()
         else: 
@@ -64,6 +65,12 @@ def text(request):
             entry.text = data
             entry.save()
     else: 
-        print(Test.objects.get(creator_id=request.session['id']).text)
+        res = Test.objects.filter(creator_id=request.session['id'])
+        if(len(res) > 0):
+            text = id_filter[0].text
+
+    context = {
+        'text': text
+    }
     
-    return render(request, 'text.html')
+    return render(request, 'text.html', context)
