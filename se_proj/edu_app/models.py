@@ -10,3 +10,7 @@ class User(models.Model):
     password = models.CharField(max_length=30)
     email = models.CharField(max_length=320)
     name = models.CharField(max_length=50)
+
+class Test(models.Model):
+    creator_id = models.IntegerField(primary_key=True)
+    text = models.TextField()

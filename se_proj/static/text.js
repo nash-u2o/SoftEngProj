@@ -1,6 +1,19 @@
-var text = function() {
+//$ is shorthand for jquery
+$(function(){
     const quill = new Quill('#editor', {
-        theme: 'snow'
+        theme: 'snow',
+        placeholder: 'Type something here, pal.',
     });
-      console.log("here");
-}();
+
+    document.getElementById('submit-button').addEventListener('click', function() {
+        const data = JSON.stringify(quill.getContents());
+        $.ajax({
+            url: "",
+            type: "POST",
+            data: {values: data, csrfmiddlewaretoken: CSRF_TOKEN},
+            success: function() {
+                quill.deleteText(0, quill.getLength());
+            },
+        });
+    });
+});
