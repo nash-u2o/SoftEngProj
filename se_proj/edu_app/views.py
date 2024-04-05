@@ -72,3 +72,16 @@ def text(request):
     }
     
     return render(request, 'text.html', context)
+
+def info(request):
+    text = ""
+    id_filter = Test.objects.filter(creator_id=request.session['id'])
+
+    if(len(id_filter) > 0 and id_filter[0].text != None):
+        text = id_filter[0].text
+
+    context = {
+        'text': text
+    }
+
+    return render(request, 'info.html', context)

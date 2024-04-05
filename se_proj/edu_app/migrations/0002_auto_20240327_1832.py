@@ -4,9 +4,15 @@ from django.db import migrations
 
 def create_logins(apps, schema_editor):
     User = apps.get_model('edu_app', 'User')
-    User.objects.create(username='admin', password='pass', email='admin', name='admin')
-    User.objects.create(username='nash', password='plaintext', email='nash@heck.com', name='Nash E')
-    User.objects.create(username='fred', password='bingo', email='fred@heck.com', name='Fred T')
+    User.objects.create(username='admin', password='pass', email='admin', name='admin', student=False)
+    User.objects.create(username='nash', password='plaintext', email='nash@heck.com', name='Nash E', student=True)
+    User.objects.create(username='fred', password='bingo', email='fred@heck.com', name='Fred T', student=False)
+
+def create_test(apps, schema_editor):
+    Test = apps.get_model('edu_app', 'Test')
+    Test.objects.create(creator_id=0, text='{}')
+    Test.objects.create(creator_id=1, text='{}')
+    Test.objects.create(creator_id=2, text='{}')
 
 class Migration(migrations.Migration):
 
