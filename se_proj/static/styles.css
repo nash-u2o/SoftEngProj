@@ -16,9 +16,11 @@
 
 .main-content {
     padding: 20px;
-    height: 100vh; /* Set main content height to 100% of viewport height */
+    height: 100vh; 
     overflow-y: auto;    
     margin: auto;
+    position: relative;
+    right: -100px; 
 }
 .html-login{
     height: 100%;
