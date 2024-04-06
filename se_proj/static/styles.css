@@ -61,4 +61,7 @@
     height: 50%;
     width: 400px;
 }
+#edit-button{
+    float: right;
+}
 

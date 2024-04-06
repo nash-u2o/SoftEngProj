@@ -67,6 +67,7 @@ def text(request):
         if(len(res) > 0):
             text = id_filter[0].text
 
+    print(text)
     context = {
         'text': text
     }
