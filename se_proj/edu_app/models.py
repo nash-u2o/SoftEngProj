@@ -45,6 +45,7 @@ class Tbl_student_teacher(models.Model):
     student_id=models.IntegerField()
     teacher_id=models.IntegerField()
 
+#when storing password, use make_password from django.contrib.auth.hashers import make_password
 #Tbl_student
 class Tbl_student(models.Model):
     student_id = models.AutoField(primary_key=True)  
