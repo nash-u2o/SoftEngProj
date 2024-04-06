@@ -4,7 +4,7 @@ from .models import Tbl_teacher,Tbl_student_teacher,Tbl_student,Tbl_student_clas
 
 #Tbl_class_admin
 class Tbl_class_admin(admin.ModelAdmin):
-    list_display = ('class_id', 'class_name', 'class_info','class_module','assignment_id','teacher_id')
+    list_display = ('class_id', 'class_name', 'class_info','class_module','teacher_id')
 admin.site.register(Tbl_class,Tbl_class_admin)
 
 #Tbl_assignment_admin

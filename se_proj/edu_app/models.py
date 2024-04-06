@@ -16,13 +16,13 @@ class Test(models.Model):
     text = models.TextField()
 
 
+
 #Tbl_class
 class Tbl_class(models.Model):
     class_id = models.AutoField(primary_key=True)  
     class_name=models.CharField(max_length=200)
-    class_info=models.CharField(max_length=200)
-    class_module=models.CharField(max_length=200)
-    assignment_id=models.IntegerField()
+    class_info=models.TextField()
+    class_module=models.TextField()
     teacher_id=models.IntegerField()
 
 #Tbl_assignment
@@ -37,7 +37,7 @@ class Tbl_assignment(models.Model):
 class Tbl_teacher(models.Model):
     teacher_id = models.AutoField(primary_key=True)  
     teacher_name=models.CharField(max_length=200)
-    teacher_email=models.EmailField(max_length=200)
+    teacher_email=models.EmailField(max_length=200,unique=True)
 
 #Tbl_student_teacher
 class Tbl_student_teacher(models.Model):   
@@ -48,7 +48,7 @@ class Tbl_student_teacher(models.Model):
 class Tbl_student(models.Model):
     student_id = models.AutoField(primary_key=True)  
     student_name=models.CharField(max_length=200)
-    student_email=models.EmailField(max_length=200)
+    student_email=models.EmailField(max_length=200,unique=True)
 
 #Tbl_student_class
 class Tbl_student_class(models.Model):   
