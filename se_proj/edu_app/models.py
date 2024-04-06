@@ -38,6 +38,7 @@ class Tbl_teacher(models.Model):
     teacher_id = models.AutoField(primary_key=True)  
     teacher_name=models.CharField(max_length=200)
     teacher_email=models.EmailField(max_length=200,unique=True)
+    teacher_password=models.CharField(max_length=200, default='pass')
 
 #Tbl_student_teacher
 class Tbl_student_teacher(models.Model):   
@@ -49,6 +50,7 @@ class Tbl_student(models.Model):
     student_id = models.AutoField(primary_key=True)  
     student_name=models.CharField(max_length=200)
     student_email=models.EmailField(max_length=200,unique=True)
+    student_password=models.CharField(max_length=200, default='pass')
 
 #Tbl_student_class
 class Tbl_student_class(models.Model):   

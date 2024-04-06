@@ -14,7 +14,7 @@ admin.site.register(Tbl_assignment,Tbl_assignment_admin)
 
 #Tbl_teacher_admin
 class Tbl_teacher_admin(admin.ModelAdmin):
-    list_display = ('teacher_id', 'teacher_name', 'teacher_email')
+    list_display = ('teacher_id', 'teacher_name', 'teacher_email','teacher_password')
 admin.site.register(Tbl_teacher,Tbl_teacher_admin)
 
 #Tbl_student_teacher_admin
@@ -24,7 +24,7 @@ admin.site.register(Tbl_student_teacher,Tbl_student_teacher_admin)
 
 #Tbl_student_admin
 class Tbl_student_admin(admin.ModelAdmin):
-    list_display = ( 'student_id', 'student_name','student_email')
+    list_display = ( 'student_id', 'student_name','student_email','student_password')
 admin.site.register(Tbl_student,Tbl_student_admin)
 
 #Tbl_student_class_admin
