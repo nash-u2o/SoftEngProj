@@ -1,18 +1,10 @@
 from django.shortcuts import render, redirect
 from edu_app.models import User, Test
-from json import dumps
-import sqlite3
 
 def index(request):
-    context = { 
-
-    }
-
     return render(request, 'index.html')
 
 def home(request):
-    print(request.session['student'])
-    print(request.session['id'])
     return render(request, 'home.html')
 
 def base(request):
@@ -51,6 +43,12 @@ def login(request):
     
     return render(request, 'login.html')
 
+def assignments(request):
+    return render(request, 'assignments.html')
+
+def modules(request):   
+    return render(request,'modules.html')
+
 #To do: Make JS page insert whatever is loaded into the text field
 def text(request):
     text = ""
@@ -74,3 +72,16 @@ def text(request):
     }
     
     return render(request, 'text.html', context)
+
+def info(request):
+    text = ""
+    id_filter = Test.objects.filter(creator_id=request.session['id'])
+
+    if(len(id_filter) > 0 and id_filter[0].text != None):
+        text = id_filter[0].text
+
+    context = {
+        'text': text
+    }
+
+    return render(request, 'info.html', context)

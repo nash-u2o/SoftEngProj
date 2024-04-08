@@ -5,6 +5,7 @@ $(function(){
         placeholder: 'Type something here, pal.',
     });
 
+    //Throws an error when loading pages that have no text
     escaped_text = text.replace(/\n/g, '\\n');
     text_json = JSON.parse(escaped_text);
     quill.setContents(text_json);
@@ -14,7 +15,6 @@ $(function(){
     document.getElementById('submit-button').addEventListener('click', function() {
         const data = quill.getContents();
         const stringify_data = JSON.stringify(data)
-        console.log(stringify_data)
         $.ajax({
             url: "",
             type: "POST",

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id='editor-container' style='display:none; width:0px; height:0px'>
+    <div id='editor'></div>
+</div>
+<div id='info'>
+    
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{block.super}}
+    <script src='{% static "info.js" %}' type='text/javascript'></script>
+    <script>
+        <!--Maybe make getting the csrf_token an if so only admins get it-->
+        var CSRF_TOKEN = '{{ csrf_token }}';
+        var text = '{{text|safe}}';
+    </script>
+{% endblock %}
