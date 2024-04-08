@@ -1,21 +1,46 @@
 {% extends 'base.html' %}
-
 {% block title %}Assignments{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container py-3">
 <h1>Assignments</h1>
     <div class="week py-3">
-        <h2>Week 1</h2>
-        <table class="table">
+        
+        <table class="assignment table">
             <thead>
-                <tr>
+                <tr class= "table info">
                     <th scope="col">Assignment</th>
                     <th scope="col">Due Date</th>
                     <th scope="col">Status</th>
                 </tr>
+                <tbody id="table">
+
+                </tbody>
             </thead>
         </table>
     </div>
-</div> 
+</div>    
+        <script> 
+            var myArray = [
+                {'assignment': 'Assignment 1', 'due': '6/7/24', 'status': 'success'}, 
+                {'assignment': 'Assignment 2', 'due': '6/7/24', 'status': 'pending'}, 
+                {'assignment': 'Assignment 3', 'due': '6/7/24', 'status': 'pending'}, 
+                {'assignment': 'Assignment 4', 'due': '6/7/24', 'status': 'pending'},
+            ]
+            
+            buildTable(myArray)
+
+            function buildTable(data){
+                var table = document.getElementById('table');
+                for(var i = 0; i < data.length; i++){
+                    var row = `<tr>
+                                    <td>${data[i].assignment}</td>
+                                    <td>${data[i].due}</td>
+                                    <td>${data[i].status}</td>
+                                </tr>`;
+                    table.innerHTML += row;
+                }
+            }
+        </script>    
+   
 {% endblock %}
