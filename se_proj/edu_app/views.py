@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from edu_app.models import User, Test
+from edu_app.models import Tbl_student, Tbl_teacher, Test
 
 def index(request):
     return render(request, 'index.html')
@@ -16,6 +16,10 @@ def classpage(request):
 def login(request):
     #Add Later: If session id already assigned, automatically redirect. 
     #Logout option should redirect here and clear all session info
+
+    context = {
+        'login': True,
+    }
     
     if request.method == "POST":
         email = request.POST['user'] #Use email to log in
@@ -28,20 +32,30 @@ def login(request):
         res = cur.execute("SELECT password FROM edu_app_user WHERE email=?", (email,))
         """
 
-        res = User.objects.filter(email=email)
-        if len(res) > 0:
-            if res[0].password == password: #Successful login
-                s_id =  res[0].id
+        s_res = Tbl_student.objects.filter(student_email=email)
+        t_res = Tbl_teacher.objects.filter(teacher_email=email)
+        if len(s_res) > 0:
+            if s_res[0].student_password == password: #Successful student login
+                s_id =  s_res[0].student_id
 
-                request.session['student'] = True
+                request.session['teacher'] = False
                 request.session['id'] = s_id
 
                 #Rendering doesn't perform desired functionality. Instead, we must redirect 
                 return redirect('home')
             
+        elif len(t_res) > 0:
+            if t_res[0].teacher_password == password: #Successful teacher login
+                t_id = t_res[0].teacher_id
+
+                request.session['teacher'] = True
+                request.session['id'] = t_id
             #Else some flag needs to be returned indicating invalid login
+        else:
+            context['login'] = False
+        
     
-    return render(request, 'login.html')
+    return render(request, 'login.html', context)
 
 def assignments(request):
     return render(request, 'assignments.html')
