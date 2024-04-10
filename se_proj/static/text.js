@@ -5,11 +5,15 @@ $(function(){
         placeholder: 'Type something here, pal.',
     });
 
-    //Throws an error when loading pages that have no text
-    escaped_text = text.replace(/\n/g, '\\n');
-    text_json = JSON.parse(escaped_text);
-    quill.setContents(text_json);
+    try {
+        text_json = JSON.parse(text);
+        quill.setContents(text_json);
+    } catch {
+        
+    }
+    
     //getSemanticHTML allows for the easy coversion and display of quill objects
+    console.log('here');
     document.getElementById('display').innerHTML = quill.getSemanticHTML();
 
     document.getElementById('submit-button').addEventListener('click', function() {

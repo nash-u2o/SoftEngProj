@@ -5,7 +5,6 @@
   {% block text_form %}
     <div id="editor"></div>
     <button type="button" class='submit-button' id='submit-button'>Submit</button>
-    </div>
     <div id="display"></div>
   {% endblock %}
 {% endblock %}
@@ -15,7 +14,7 @@
     <script src="{% static 'text.js' %}" type="text/javascript"></script>
     <script>
       var CSRF_TOKEN = '{{ csrf_token }}';
-      var text = '{{ text|safe }}';
+      var text = '{{ text|escapejs|safe }}';
     </script>
 
 {% endblock %}
