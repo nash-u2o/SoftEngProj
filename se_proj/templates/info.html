@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <div class='edit-button-container'><button id="edit-button" class="btn btn-success">Edit</button></div>
+    <div class='edit-button-container'></div>
     <div id='info'></div>
     <div class='hidden-editor-container'>
         <div id='hidden-editor'>
@@ -17,5 +17,6 @@
         <!--Maybe make getting the csrf_token an if so only admins get it-->
         var CSRF_TOKEN = '{{ csrf_token }}';
         var text = '{{text|escapejs|safe}}';
+        var is_teacher = '{{is_teacher|safe}}';
     </script>
 {% endblock %}
