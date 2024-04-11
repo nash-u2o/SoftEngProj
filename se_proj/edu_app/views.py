@@ -1,31 +1,36 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from edu_app.models import Tbl_student, Tbl_teacher, Test
 
+
 def index(request):
-    return render(request, 'index.html')
+    return render(request, "index.html")
+
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, "home.html")
+
 
 def base(request):
-    return render(request, 'base.html')
+    return render(request, "base.html")
+
 
 def classpage(request):
-    return render(request, 'classpage.html')
-  
+    return render(request, "classpage.html")
+
+
 def login(request):
-    #Add Later: If session id already assigned, automatically redirect. 
-    #Logout option should redirect here and clear all session info
+    # Add Later: If session id already assigned, automatically redirect.
+    # Logout option should redirect here and clear all session info
 
     context = {
-        'login': True,
+        "login": True,
     }
-    
-    if request.method == "POST":
-        email = request.POST['user'] #Use email to log in
-        password = request.POST['pass']
 
-        #This would allow direct querying of the DB. Might allow SQL injection so avoid
+    if request.method == "POST":
+        email = request.POST["user"]  # Use email to log in
+        password = request.POST["pass"]
+
+        # This would allow direct querying of the DB. Might allow SQL injection so avoid
         """ 
         con = sqlite3.connect('db.sqlite3')
         cur = con.cursor() #Cursor allows us to execute SQL statements and fetch results
@@ -35,68 +40,67 @@ def login(request):
         s_res = Tbl_student.objects.filter(student_email=email)
         t_res = Tbl_teacher.objects.filter(teacher_email=email)
         if len(s_res) > 0:
-            if s_res[0].student_password == password: #Successful student login
-                s_id =  s_res[0].student_id
+            if s_res[0].student_password == password:  # Successful student login
+                s_id = s_res[0].student_id
 
-                request.session['teacher'] = False
-                request.session['id'] = s_id
+                request.session["teacher"] = False
+                request.session["id"] = s_id
 
-                #Rendering doesn't perform desired functionality. Instead, we must redirect 
-                return redirect('home')
-            
+                # Rendering doesn't perform desired functionality. Instead, we must redirect
+                return redirect("home")
+
         elif len(t_res) > 0:
-            if t_res[0].teacher_password == password: #Successful teacher login
+            if t_res[0].teacher_password == password:  # Successful teacher login
                 t_id = t_res[0].teacher_id
 
-                request.session['teacher'] = True
-                request.session['id'] = t_id
-            #Else some flag needs to be returned indicating invalid login
+                request.session["teacher"] = True
+                request.session["id"] = t_id
+            # Else some flag needs to be returned indicating invalid login
         else:
-            context['login'] = False
-        
-    
-    return render(request, 'login.html', context)
+            context["login"] = False
+
+    return render(request, "login.html", context)
+
 
 def assignments(request):
-    return render(request, 'assignments.html')
+    return render(request, "assignments.html")
 
-def modules(request):   
-    return render(request,'modules.html')
 
-#To do: Make JS page insert whatever is loaded into the text field
+def modules(request):
+    return render(request, "modules.html")
+
+
+# To do: Make JS page insert whatever is loaded into the text field
 def text(request):
     text = ""
-    id_filter = Test.objects.filter(creator_id=request.session['id'])
+    id_filter = Test.objects.filter(creator_id=request.session["id"])
     if request.method == "POST":
-        data = request.POST.get('values') #Get the values sent over by user
+        data = request.POST.get("values")  # Get the values sent over by user
         if len(id_filter) == 0:
-            entry = Test(creator_id=request.session['id'], text=data)
+            entry = Test(creator_id=request.session["id"], text=data)
             entry.save()
-        else: 
-            entry = Test.objects.get(creator_id=request.session['id'])
+        else:
+            entry = Test.objects.get(creator_id=request.session["id"])
             entry.text = data
             entry.save()
-    else: 
-        res = Test.objects.filter(creator_id=request.session['id'])
-        if(len(res) > 0):
+    else:
+        res = Test.objects.filter(creator_id=request.session["id"])
+        if len(res) > 0:
             text = id_filter[0].text
 
     print(text)
-    context = {
-        'text': text
-    }
-    
-    return render(request, 'text.html', context)
+    context = {"text": text}
+
+    return render(request, "text.html", context)
+
 
 def info(request):
     text = ""
-    id_filter = Test.objects.filter(creator_id=request.session['id'])
+    id_filter = Test.objects.filter(creator_id=request.session["id"])
 
-    if(len(id_filter) > 0 and id_filter[0].text != None):
+    if len(id_filter) > 0 and id_filter[0].text != None:
         text = id_filter[0].text
 
-    context = {
-        'text': text
-    }
+    context = {"text": text}
 
-    return render(request, 'info.html', context)
+    return render(request, "info.html", context)
