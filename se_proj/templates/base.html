@@ -10,18 +10,17 @@
     <title>{% block title %} SAVNAC {% endblock %}</title>
 
     {% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.4/dist/quill.snow.css">
-        <link rel="stylesheet" href="{% static 'styles.css' %}">
+        
     {% endblock %}
 </head>
 <body class="d-flex flex-column">
     <!-- Header -->
     <header>    
-        <nav class="navbar navbar-dark bg-dark">
-            <span class="navbar-brand mb-3 h1">
-                <!-- header content -->
-            </span>
+        <nav class="header navbar mb-4">
+           
         </nav>
     </header>
 
@@ -29,14 +28,12 @@
     <div class="container-fluid">
         <div class="row flex-grow-1">
             <!-- Base Sidebar -->
-            <nav class="col-md-3 col-lg-1 d-md-block bg-dark sidebar flex-column fixed-bottom">
+            <nav class="sidebar col-md-3 col-lg-1 d-md-block flex-column fixed-bottom">
                 <ul class="mt-5 navbar-nav flex-column flex-nowrap">
-                    <li> <a class="nav-link" href="#">Home</a></li>
-                    <li> <a class="nav-link" href="#">Schedule</a></li>
-                    <li> <a class="nav-link" href="#">Grades</a></li>
-                    <li> <a class="nav-link" href="#">Assignments</a></li>
+                    <li> <a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li> <a class="nav-link" href="{% url 'modules' %}">Modules</a></li>
+                    <li> <a class="nav-link" href="{% url 'assignments' %}">Assignments</a></li>
                     <li> <a class="nav-link" href="#">Help</a></li>
-                    <li> <a class="nav-link" href="#">Logout</a></li>
                 </ul>
             </nav>
             
@@ -52,13 +49,17 @@
     <!-- Footer -->
     {% block footer %}
         <footer class='footer'>
-            <nav class="navbar navbar-dark bg-dark fixed-bottom">
-                <span class="navbar-brand mb-3 h1">
-                    <!-- footer content -->
-                </span>
+            <nav class="navbar fixed-bottom">
+        
             </nav>
         </footer>
     {% endblock %}
+
+
+    <div class="button">
+        <button class="logout-button" onclick="window.location.href = '{% url 'login' %}'">Log Out</button>
+      </div>
+        
 </body>
 
 {% block scripts %}
