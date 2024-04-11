@@ -1,6 +1,11 @@
 from django.db import models
 
 
+# Default auto=incrementing primary key
+# Make username unique
+# Make email unique
+# Have a password
+# Use username and password to login
 class User(models.Model):
     username = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
@@ -15,6 +20,13 @@ class Test(models.Model):
 
 
 # Tbl_class
+"""
+* class_info should be a TextField
+* module should be a separate class
+* I don't see how foreign key for assignment_id does much
+"""
+
+
 class Tbl_class(models.Model):
     class_id = models.AutoField(primary_key=True)
     class_name = models.CharField(max_length=200)
@@ -24,6 +36,8 @@ class Tbl_class(models.Model):
 
 
 # Tbl_assignment
+
+
 class Tbl_assignment(models.Model):
     assignment_id = models.AutoField(primary_key=True)
     assignment_name = models.CharField(max_length=200)
