@@ -48,14 +48,14 @@ def login(request):
 
                 # Rendering doesn't perform desired functionality. Instead, we must redirect
                 return redirect("home")
-
         elif len(t_res) > 0:
             if t_res[0].teacher_password == password:  # Successful teacher login
                 t_id = t_res[0].teacher_id
 
                 request.session["teacher"] = True
                 request.session["id"] = t_id
-            # Else some flag needs to be returned indicating invalid login
+
+                return redirect("home")
         else:
             context["login"] = False
 
@@ -117,6 +117,7 @@ def text(request):
 
 def info(request):
     text = ""
+    is_teacher = request.session["teacher"]
 
     # hard-coded for class 2. Will get the actual value from a get request or something upon link click
     class_id = 2
@@ -132,6 +133,9 @@ def info(request):
     if len(id_filter) > 0 and id_filter[0].class_info != None:
         text = id_filter[0].class_info
 
-    context = {"text": text}
+    context = {
+        "text": text,
+        "is_teacher": is_teacher,
+    }
 
     return render(request, "info.html", context)
