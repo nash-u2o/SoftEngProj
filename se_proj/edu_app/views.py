@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from edu_app.models import Tbl_student, Tbl_teacher, Test
+from edu_app.models import Tbl_class, Tbl_student, Tbl_teacher, Test
 
 
 def index(request):
@@ -96,10 +96,20 @@ def text(request):
 
 def info(request):
     text = ""
-    id_filter = Test.objects.filter(creator_id=request.session["id"])
 
-    if len(id_filter) > 0 and id_filter[0].text != None:
-        text = id_filter[0].text
+    # hard-coded for class 2. Will get the actual value from a get request or something upon link click
+    class_id = 2
+
+    if request.method == "POST":
+        data = request.POST.get("values")
+        entry = Tbl_class.objects.get(class_id=class_id)
+        entry.class_info = data
+        entry.save()
+
+    id_filter = Tbl_class.objects.filter(class_id=class_id)
+
+    if len(id_filter) > 0 and id_filter[0].class_info != None:
+        text = id_filter[0].class_info
 
     context = {"text": text}
 
