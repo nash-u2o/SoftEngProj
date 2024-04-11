@@ -7,6 +7,9 @@
 
 $(function(){
     //See what happens when quill is not assigned anything. Really just needed for getSemanticHtml from delta objects
+
+    //Text Initialization
+
     var quill;
     quill = new Quill('#hidden-editor', {
         theme: 'snow',
@@ -22,6 +25,20 @@ $(function(){
     
     quill.setContents(text_json);
     document.getElementById('info').innerHTML = quill.getSemanticHTML();
+
+    // End of Text Initialization
+
+    // Button Initialization
+
+    if(is_teacher == "True"){
+        console.log("here")
+        document.getElementsByClassName("edit-button-container")[0].innerHTML = "<button id='edit-button' class='btn btn-success'>Edit</button>";
+        document.getElementsByClassName("edit-button-container")[0].classList.add("btn", "btn-success");
+    }
+
+    // End of Button Initialization
+
+    // Button Functions 
 
     $("#edit-button").on("click", function(){
         //When inserting html in JS, apply styles afterwards
