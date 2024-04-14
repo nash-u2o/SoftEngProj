@@ -29,4 +29,5 @@ urlpatterns = [
     path("modules/", views.modules, name="modules"),
     path("home/", views.home, name="home"),
     path("info/", views.info, name="info"),
+    path("test/", views.test, name="test"),
 ]
