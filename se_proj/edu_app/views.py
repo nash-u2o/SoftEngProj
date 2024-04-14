@@ -118,3 +118,7 @@ def info(request):
     }
 
     return render(request, "info.html", context)
+
+
+def test(request):
+    return render(request, "test.html")
