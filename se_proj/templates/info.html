@@ -2,12 +2,17 @@
 {% load static %}
 
 {% block content %}
-    <div class='edit-button-container'></div>
-    <div id='info'></div>
+    <header class="header">
+        <div class="header-text"></div>
+        <div class="edit-button-container"></div>
+    </header>
+    <hr style="margin-right: 5px">
+    <div class="content">
+        <div id="info"></div>
+    </div>
     <div class='hidden-editor-container'>
         <div id='hidden-editor'>
     </div>
-    <div id='info'></div>
 {% endblock %}
 
 {% block scripts %}
