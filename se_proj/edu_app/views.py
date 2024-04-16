@@ -122,3 +122,6 @@ def info(request):
 
 def test(request):
     return render(request, "test.html")
+
+def dashboard(request):
+    return render(request, "dashboard.html")
