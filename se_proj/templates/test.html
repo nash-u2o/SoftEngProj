@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head_info %}
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% endblock %}
+
+        <title>Djargon</title>
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{% static "styles.css" %}">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.4/dist/quill.snow.css">
+        {% endblock %}
+    </head>
+    <body>
+        <div class="test-sidebar">
+            <div class="test-logo"> 
+                <a href="#">
+                    <img src="{% static 'logo.png'%}" alt='logo' width="100" height="100" class="logo">
+                </a>
+            </div>
+            <div class="test-sidebar-content">
+                <a href="#">Home</a>
+                <a href="{% url 'edu_app:info' %}">Info</a>
+                <a href="#">Assignments</a>
+            </div>
+        </div>
+        <main>
+            <div class="test-main-content">
+            </div>
+        </main>
+    </body>
+</html>
