@@ -63,27 +63,12 @@ def login(request):
 
 
 def assignments(request):
-    user_id = request.session.get('id')
+
+    user_id = request.session["id"]
+    student_classes = Tbl_student_class.objects.filter(student_id=user_id).values_list('class_id', flat=True)
+    student_assignments = Tbl_assignment.objects.filter(class_id__in=student_classes)
     
-    if not user_id:
-        return redirect('login')
-
-
-    student = Tbl_student.objects.filter(student_id=user_id).first()
-    if student:
-        try:
-            student_class_id = student.tbl_student_class.class_id
-        except Tbl_student_class.DoesNotExist:
-            student_class_id = None
-
-        if student_class_id is not None:
-            assignments = Tbl_assignment.objects.filter(class_id=student_class_id)
-        else:
-            assignments = []
-
-        return render(request, 'assignments.html', {'assignments': assignments})
-    else:
-        return redirect('login')
+    return render(request, 'assignments.html', context = {'assignments': student_assignments})
 
     
     
