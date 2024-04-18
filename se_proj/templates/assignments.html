@@ -2,29 +2,25 @@
 {% block title %}Assignments{% endblock %}
 
 {% block content %}
-<div class="container py-3">
+<br>
+<br>
 <h1>Assignments</h1>
-    <div class="week py-3">
-        
         <table class="assignment table">
             <thead>
                 <tr class= "table info">
                     <th scope="col">Assignment</th>
                     <th scope="col">Due Date</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Percentage Complete</th>
                 </tr>
                 <tbody>
                     {% for assignment in assignments %}
                     <tr>
                         <td>{{ assignment.assignment_name }}</td>
                         <td>{{ assignment.assignment_due }}</td>
-                        <td>{{ assignment.status }}</td>
+                        <td>{{ assignment.assignment_percentage}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </thead>
-        </table>
-    </div>
-</div>    
-        
+    
 {% endblock %}
