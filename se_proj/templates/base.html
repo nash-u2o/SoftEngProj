@@ -27,9 +27,9 @@
                 {% endblock %}
                 {% block sidebar-content %}
                     <div class="sidebar-content">
-                        <a href="#">Home</a>
-                        <a href="#">Info</a>
-                        <a href="#">Assignments</a>
+                        <a href="{% url 'home' %}">Home</a>
+                        <a href="{% url 'info' %}">Info</a>
+                        <a href="{% url 'assignments' %}">Assignments</a>
                     </div>
                 {% endblock %}
             </div>
