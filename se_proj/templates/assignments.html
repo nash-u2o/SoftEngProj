@@ -2,45 +2,25 @@
 {% block title %}Assignments{% endblock %}
 
 {% block content %}
-<div class="container py-3">
+<br>
+<br>
 <h1>Assignments</h1>
-    <div class="week py-3">
-        
         <table class="assignment table">
             <thead>
                 <tr class= "table info">
                     <th scope="col">Assignment</th>
                     <th scope="col">Due Date</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Percentage Complete</th>
                 </tr>
-                <tbody id="table">
-
+                <tbody>
+                    {% for assignment in assignments %}
+                    <tr>
+                        <td>{{ assignment.assignment_name }}</td>
+                        <td>{{ assignment.assignment_due }}</td>
+                        <td>{{ assignment.assignment_percentage}}</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </thead>
-        </table>
-    </div>
-</div>    
-        <script> 
-            var myArray = [
-                {'assignment': 'Assignment 1', 'due': '6/7/24', 'status': 'success'}, 
-                {'assignment': 'Assignment 2', 'due': '6/7/24', 'status': 'pending'}, 
-                {'assignment': 'Assignment 3', 'due': '6/7/24', 'status': 'pending'}, 
-                {'assignment': 'Assignment 4', 'due': '6/7/24', 'status': 'pending'},
-            ]
-            
-            buildTable(myArray)
-
-            function buildTable(data){
-                var table = document.getElementById('table');
-                for(var i = 0; i < data.length; i++){
-                    var row = `<tr>
-                                    <td>${data[i].assignment}</td>
-                                    <td>${data[i].due}</td>
-                                    <td>${data[i].status}</td>
-                                </tr>`;
-                    table.innerHTML += row;
-                }
-            }
-        </script>    
-   
+    
 {% endblock %}
