@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from edu_app.models import Tbl_class, Tbl_student, Tbl_teacher, Test
+from edu_app.models import Tbl_class, Tbl_student, Tbl_teacher, Test, Tbl_assignment, Tbl_student_class
 
 
 def index(request):
@@ -63,9 +63,15 @@ def login(request):
 
 
 def assignments(request):
-    return render(request, "assignments.html")
 
+    user_id = request.session["id"]
+    student_classes = Tbl_student_class.objects.filter(student_id=user_id).values_list('class_id', flat=True)
+    student_assignments = Tbl_assignment.objects.filter(class_id__in=student_classes)
+    
+    return render(request, 'assignments.html', context = {'assignments': student_assignments})
 
+    
+    
 def modules(request):
     return render(request, "modules.html")
 
