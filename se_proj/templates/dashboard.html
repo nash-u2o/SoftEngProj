@@ -1,14 +1,21 @@
-{%extends 'base.html' %}
+{% extends 'base.html' %}
+{% load static %}
+
 {% block title %}Dashboard{% endblock %}
 
+{% block sidebar-content %}
+<div class="sidebar-content">
+    <a href="{% url 'home' %}">Home</a>
+</div>
+{% endblock %}
+
 {% block content %}
-<body class='click'>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Class</h5>
-          <p class="card-text">Brief description of enrolled classes.</p>
-          <a href="#" class="btn btn-primary stretched-link">Go somewhere</a>
-        </div>
-      </div>
-</body>
+<div class="card-container" id="card-container">
+    <!--Django script to generate cards-->
+    {% for class in class_list %}
+    <div class="class-card card text-bg-secondary mb-3" style="max-width: 10rem;">
+        <a href="{% url 'info' class.id %}"><div class="card-header text-card">{{class.name}}</div></a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
