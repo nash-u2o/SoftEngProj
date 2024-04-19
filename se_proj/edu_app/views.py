@@ -1,5 +1,14 @@
+import json
+
 from django.shortcuts import redirect, render
-from edu_app.models import Tbl_class, Tbl_student, Tbl_teacher, Test, Tbl_assignment, Tbl_student_class
+from edu_app.models import (
+    Tbl_assignment,
+    Tbl_class,
+    Tbl_student,
+    Tbl_student_class,
+    Tbl_teacher,
+    Test,
+)
 
 
 def index(request):
@@ -47,7 +56,7 @@ def login(request):
                 request.session["id"] = s_id
 
                 # Rendering doesn't perform desired functionality. Instead, we must redirect
-                return redirect("home")
+                return redirect("dashboard")
         elif len(t_res) > 0:
             if t_res[0].teacher_password == password:  # Successful teacher login
                 t_id = t_res[0].teacher_id
@@ -55,7 +64,7 @@ def login(request):
                 request.session["teacher"] = True
                 request.session["id"] = t_id
 
-                return redirect("home")
+                return redirect("dashboard")
         else:
             context["login"] = False
 
@@ -65,13 +74,16 @@ def login(request):
 def assignments(request):
 
     user_id = request.session["id"]
-    student_classes = Tbl_student_class.objects.filter(student_id=user_id).values_list('class_id', flat=True)
+    student_classes = Tbl_student_class.objects.filter(student_id=user_id).values_list(
+        "class_id", flat=True
+    )
     student_assignments = Tbl_assignment.objects.filter(class_id__in=student_classes)
-    
-    return render(request, 'assignments.html', context = {'assignments': student_assignments})
 
-    
-    
+    return render(
+        request, "assignments.html", context={"assignments": student_assignments}
+    )
+
+
 def modules(request):
     return render(request, "modules.html")
 
@@ -100,13 +112,14 @@ def text(request):
     return render(request, "text.html", context)
 
 
-def info(request):
+# class_id is passed through django's get syntax. Url in urls.py has been modified for this
+def info(request, class_id):
     text = ""
     is_teacher = request.session["teacher"]
 
-    # hard-coded for class 2. Will get the actual value from a get request or something upon link click
-    class_id = 2
+    print(class_id)
 
+    # Executes upon info update
     if request.method == "POST":
         data = request.POST.get("values")
         entry = Tbl_class.objects.get(class_id=class_id)
@@ -121,9 +134,36 @@ def info(request):
     context = {
         "text": text,
         "is_teacher": is_teacher,
+        "class_id": class_id,
     }
 
     return render(request, "info.html", context)
+
+
+def dashboard(request):
+    # Get class ids
+    id = request.session["id"]
+    class_list = []
+    if request.session["teacher"]:
+        classes = Tbl_class.objects.filter(teacher_id=id)
+    else:
+        classes = Tbl_student_class.objects.filter(student_id=id)
+
+    # Use ids to get class info for cards
+    count = 0
+    for entry in classes:
+        id = entry.class_id
+        name = Tbl_class.objects.filter(class_id=id)[0].class_name
+        class_info = {
+            "id": id,
+            "name": name,
+        }
+        class_list.append(class_info)
+        count = count + 1
+
+    context = {"class_list": class_list}
+
+    return render(request, "dashboard.html", context)
 
 
 def test(request):
