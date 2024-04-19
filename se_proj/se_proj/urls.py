@@ -28,6 +28,7 @@ urlpatterns = [
     path("", views.login, name="login"),
     path("modules/", views.modules, name="modules"),
     path("home/", views.home, name="home"),
-    path("info/", views.info, name="info"),
+    path("info/<int:class_id>/", views.info, name="info"),
     path("test/", views.test, name="test"),
+    path("dashboard/", views.dashboard, name="dashboard"),
 ]
