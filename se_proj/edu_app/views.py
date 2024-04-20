@@ -1,5 +1,3 @@
-import json
-
 from django.shortcuts import redirect, render
 from edu_app.models import (
     Tbl_assignment,
@@ -57,6 +55,8 @@ def login(request):
 
                 # Rendering doesn't perform desired functionality. Instead, we must redirect
                 return redirect("dashboard")
+            else:
+                context["login"] = False
         elif len(t_res) > 0:
             if t_res[0].teacher_password == password:  # Successful teacher login
                 t_id = t_res[0].teacher_id
@@ -65,23 +65,30 @@ def login(request):
                 request.session["id"] = t_id
 
                 return redirect("dashboard")
+            else:
+                context["login"] = False
         else:
             context["login"] = False
 
     return render(request, "login.html", context)
 
 
-def assignments(request):
+def assignments(request, class_id):
 
+    is_teacher = request.session["teacher"]
     user_id = request.session["id"]
     student_classes = Tbl_student_class.objects.filter(student_id=user_id).values_list(
         "class_id", flat=True
     )
     student_assignments = Tbl_assignment.objects.filter(class_id__in=student_classes)
 
-    return render(
-        request, "assignments.html", context={"assignments": student_assignments}
-    )
+    context = {
+        "assignments": student_assignments,
+        "is_teacher": is_teacher,
+        "class_id": class_id,
+    }
+
+    return render(request, "assignments.html", context)
 
 
 def modules(request):
@@ -106,7 +113,6 @@ def text(request):
         if len(res) > 0:
             text = id_filter[0].text
 
-    print(text)
     context = {"text": text}
 
     return render(request, "text.html", context)
@@ -116,8 +122,6 @@ def text(request):
 def info(request, class_id):
     text = ""
     is_teacher = request.session["teacher"]
-
-    print(class_id)
 
     # Executes upon info update
     if request.method == "POST":
@@ -150,7 +154,6 @@ def dashboard(request):
         classes = Tbl_student_class.objects.filter(student_id=id)
 
     # Use ids to get class info for cards
-    count = 0
     for entry in classes:
         id = entry.class_id
         name = Tbl_class.objects.filter(class_id=id)[0].class_name
@@ -159,11 +162,20 @@ def dashboard(request):
             "name": name,
         }
         class_list.append(class_info)
-        count = count + 1
 
     context = {"class_list": class_list}
 
     return render(request, "dashboard.html", context)
+
+
+def students(request, class_id):
+    is_teacher = request.session["teacher"]
+    context = {
+        "is_teacher": is_teacher,
+        "class_id": class_id,
+    }
+
+    return render(request, "students.html", context)
 
 
 def test(request):
