@@ -91,27 +91,16 @@ def assignments(request, class_id):
     return render(request, "assignments.html", context)
 
 
-def modules(request):
+def modules(request, class_id):
+    is_teacher = request.session.get("teacher")
+    user_id = request.session.get("id")
     
-   is_teacher = request.session.get("teacher")
-   user_id = request.session.get("id")
-   
-   if is_teacher:
-        student_assignments = Tbl_assignment.objects.filter(class_id=user_id)
-   else:
-        student_classes = Tbl_student_class.objects.filter(student_id=user_id).values_list(
-            "class_id", flat=True
-        )
-        student_assignments = Tbl_assignment.objects.filter(class_id__in=student_classes)
-    
-   assignments_by_date = {}
-   for assignment in student_assignments:
-        due_date = assignment.assignment_due
-        if due_date not in assignments_by_date:
-            assignments_by_date[due_date] = []
-        assignments_by_date[due_date].append(assignment)
+    if is_teacher:
+        modules = Tbl_class.objects.filter(teacher_id=user_id)
+    else:
+        modules = Tbl_class.objects.filter(class_id=class_id)
 
-   return render(request, 'modules.html', {'assignments_by_date': assignments_by_date})
+    return render(request, 'modules.html', {'modules': modules})
 
 
 # To do: Make JS page insert whatever is loaded into the text field

@@ -4,28 +4,22 @@
 {% block content %}
 <br><br>
 <h1>Module Page</h1>
-{% for module_num, (due_date, assignments) in modules_with_assignments.items %}
-    <div class="module py-3">
-        <h2>Module {{ module_num }}</h2>
-        <h3>{{ due_date }}</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Assignment</th>
-                    <th scope="col">Due Date</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for assignment in assignments %}
-                <tr>
-                    <td>{{ assignment.assignment_name }}</td>
-                    <td>{{ assignment.assignment_due }}</td>
-                    <td>{{ assignment.status }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-{% endfor %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Assignment</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for module in modules %}
+        <tr>
+            <td colspan="3"><h2>{{ module.class_module }}</h2></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}
