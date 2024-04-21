@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from edu_app.models import (
     Tbl_assignment,
     Tbl_class,
@@ -99,8 +99,20 @@ def modules(request, class_id):
         modules = Tbl_class.objects.filter(teacher_id=user_id)
     else:
         modules = Tbl_class.objects.filter(class_id=class_id)
+    
+    return render(request, 'modules.html', {'modules': modules, 'is_teacher': is_teacher})
 
-    return render(request, 'modules.html', {'modules': modules})
+def edit_module(request, class_id):
+   
+   request.method == 'POST'
+   module_content = request.POST.get('module_content')
+   module = get_object_or_404(Tbl_class, class_id=class_id)
+   module.class_module = module_content
+   module.save()
+   
+   return redirect('modules', class_id=class_id)
+    
+
 
 
 # To do: Make JS page insert whatever is loaded into the text field

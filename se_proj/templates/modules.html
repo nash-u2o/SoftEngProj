@@ -8,18 +8,51 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Assignment</th>
-            <th scope="col">Due Date</th>
-            <th scope="col">Status</th>
+            <th scope="col">Module</th>
+            {% if is_teacher %}
+                <th scope="col">Actions</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
         {% for module in modules %}
         <tr>
-            <td colspan="3"><h2>{{ module.class_module }}</h2></td>
+            <td>{{ module.class_module }}</td>
+            {% if is_teacher %}
+                <td>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModuleModal{{ module.class_id }}">
+                        Edit
+                    </button>
+                </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
+
+{% for module in modules %}
+<div class="modal fade" id="editModuleModal{{ module.class_id }}" tabindex="-1" role="dialog" aria-labelledby="editModuleModal{{ module.class_id }}Label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModuleModal{{ module.class_id }}Label">Edit Module</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'edit_module' class_id=module.class_id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="moduleContent">Module Content</label>
+                        <textarea class="form-control" id="moduleContent" name="module_content" rows="5">{{ module.class_module }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}
