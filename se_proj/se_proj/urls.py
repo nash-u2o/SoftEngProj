@@ -21,7 +21,7 @@ from django.urls import path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("index/", views.index, name="index"),
-    path("assignments/", views.assignments, name="assignments"),
+    path("assignments/<int:class_id>", views.assignments, name="assignments"),
     path("base/", views.base, name="base"),
     path("classpage/", views.classpage, name="classpage"),
     path("text/", views.text, name="text"),
@@ -31,4 +31,5 @@ urlpatterns = [
     path("info/<int:class_id>/", views.info, name="info"),
     path("test/", views.test, name="test"),
     path("dashboard/", views.dashboard, name="dashboard"),
+    path("students/<int:class_id>", views.students, name="students"),
 ]
