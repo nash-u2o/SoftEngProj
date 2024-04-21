@@ -1,5 +1,12 @@
 from django.shortcuts import redirect, render
-from edu_app.models import Tbl_class, Tbl_student, Tbl_teacher, Test
+from edu_app.models import (
+    Tbl_assignment,
+    Tbl_class,
+    Tbl_student,
+    Tbl_student_class,
+    Tbl_teacher,
+    Test,
+)
 
 
 def index(request):
@@ -47,7 +54,9 @@ def login(request):
                 request.session["id"] = s_id
 
                 # Rendering doesn't perform desired functionality. Instead, we must redirect
-                return redirect("home")
+                return redirect("dashboard")
+            else:
+                context["login"] = False
         elif len(t_res) > 0:
             if t_res[0].teacher_password == password:  # Successful teacher login
                 t_id = t_res[0].teacher_id
@@ -55,19 +64,54 @@ def login(request):
                 request.session["teacher"] = True
                 request.session["id"] = t_id
 
-                return redirect("home")
+                return redirect("dashboard")
+            else:
+                context["login"] = False
         else:
             context["login"] = False
 
     return render(request, "login.html", context)
 
 
-def assignments(request):
-    return render(request, "assignments.html")
+def assignments(request, class_id):
+
+    is_teacher = request.session["teacher"]
+    user_id = request.session["id"]
+    student_classes = Tbl_student_class.objects.filter(student_id=user_id).values_list(
+        "class_id", flat=True
+    )
+    student_assignments = Tbl_assignment.objects.filter(class_id__in=student_classes)
+
+    context = {
+        "assignments": student_assignments,
+        "is_teacher": is_teacher,
+        "class_id": class_id,
+    }
+
+    return render(request, "assignments.html", context)
 
 
 def modules(request):
-    return render(request, "modules.html")
+    
+   is_teacher = request.session.get("teacher")
+   user_id = request.session.get("id")
+   
+   if is_teacher:
+        student_assignments = Tbl_assignment.objects.filter(class_id=user_id)
+   else:
+        student_classes = Tbl_student_class.objects.filter(student_id=user_id).values_list(
+            "class_id", flat=True
+        )
+        student_assignments = Tbl_assignment.objects.filter(class_id__in=student_classes)
+    
+   assignments_by_date = {}
+   for assignment in student_assignments:
+        due_date = assignment.assignment_due
+        if due_date not in assignments_by_date:
+            assignments_by_date[due_date] = []
+        assignments_by_date[due_date].append(assignment)
+
+   return render(request, 'modules.html', {'assignments_by_date': assignments_by_date})
 
 
 # To do: Make JS page insert whatever is loaded into the text field
@@ -88,19 +132,17 @@ def text(request):
         if len(res) > 0:
             text = id_filter[0].text
 
-    print(text)
     context = {"text": text}
 
     return render(request, "text.html", context)
 
 
-def info(request):
+# class_id is passed through django's get syntax. Url in urls.py has been modified for this
+def info(request, class_id):
     text = ""
     is_teacher = request.session["teacher"]
 
-    # hard-coded for class 2. Will get the actual value from a get request or something upon link click
-    class_id = 2
-
+    # Executes upon info update
     if request.method == "POST":
         data = request.POST.get("values")
         entry = Tbl_class.objects.get(class_id=class_id)
@@ -115,9 +157,72 @@ def info(request):
     context = {
         "text": text,
         "is_teacher": is_teacher,
+        "class_id": class_id,
     }
 
     return render(request, "info.html", context)
+
+
+def dashboard(request):
+    # Get class ids
+    id = request.session["id"]
+    class_list = []
+    if request.session["teacher"]:
+        classes = Tbl_class.objects.filter(teacher_id=id)
+    else:
+        classes = Tbl_student_class.objects.filter(student_id=id)
+
+    # Use ids to get class info for cards
+    for entry in classes:
+        id = entry.class_id
+        name = Tbl_class.objects.filter(class_id=id)[0].class_name
+        class_info = {
+            "id": id,
+            "name": name,
+        }
+        class_list.append(class_info)
+
+    context = {"class_list": class_list}
+
+    return render(request, "dashboard.html", context)
+
+
+def students(request, class_id):
+    is_teacher = request.session["teacher"]
+    context = {
+        "is_teacher": is_teacher,
+        "class_id": class_id,
+    }
+
+    if request.method == "POST":
+        post_dict = request.POST
+
+        # For add - get students of given email. If exist, check if in class. If not, add to class.
+        # For delete - get student of given email. If exist, check if in class. If yes, delete from class
+        if "add" in post_dict:
+            student_filter = Tbl_student.objects.filter(student_email=post_dict["add"])
+            if len(student_filter) != 0:
+                student = student_filter[0]
+                student_class_filter = Tbl_student_class.objects.filter(
+                    student_id=student.student_id, class_id=class_id
+                )
+                if len(student_class_filter) == 0:
+                    Tbl_student_class.objects.create(
+                        student_id=student.student_id, class_id=class_id
+                    )
+        elif "delete" in post_dict:
+            student_filter = Tbl_student.objects.filter(
+                student_email=post_dict["delete"]
+            )
+            if len(student_filter) != 0:
+                student = student_filter[0]
+                student_class_filter = Tbl_student_class.objects.filter(
+                    student_id=student.student_id, class_id=class_id
+                )
+                if len(student_class_filter) != 0:
+                    student_class_filter.delete()
+
+    return render(request, "students.html", context)
 
 
 def test(request):
