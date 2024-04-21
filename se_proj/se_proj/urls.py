@@ -32,4 +32,5 @@ urlpatterns = [
     path("test/", views.test, name="test"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("students/<int:class_id>", views.students, name="students"),
+    path("manage/", views.manage, name="manage"),
 ]

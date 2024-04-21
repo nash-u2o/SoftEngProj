@@ -26,8 +26,6 @@ def classpage(request):
 
 
 def login(request):
-    # Add Later: If session id already assigned, automatically redirect.
-    # Logout option should redirect here and clear all session info
 
     context = {
         "login": True,
@@ -36,13 +34,6 @@ def login(request):
     if request.method == "POST":
         email = request.POST["user"]  # Use email to log in
         password = request.POST["pass"]
-
-        # This would allow direct querying of the DB. Might allow SQL injection so avoid
-        """ 
-        con = sqlite3.connect('db.sqlite3')
-        cur = con.cursor() #Cursor allows us to execute SQL statements and fetch results
-        res = cur.execute("SELECT password FROM edu_app_user WHERE email=?", (email,))
-        """
 
         s_res = Tbl_student.objects.filter(student_email=email)
         t_res = Tbl_teacher.objects.filter(teacher_email=email)
@@ -164,11 +155,14 @@ def info(request, class_id):
 
 
 def dashboard(request):
+    is_teacher = False
+
     # Get class ids
     id = request.session["id"]
     class_list = []
     if request.session["teacher"]:
         classes = Tbl_class.objects.filter(teacher_id=id)
+        is_teacher = True
     else:
         classes = Tbl_student_class.objects.filter(student_id=id)
 
@@ -182,7 +176,10 @@ def dashboard(request):
         }
         class_list.append(class_info)
 
-    context = {"class_list": class_list}
+    context = {
+        "class_list": class_list,
+        "is_teacher": is_teacher,
+    }
 
     return render(request, "dashboard.html", context)
 
@@ -223,6 +220,10 @@ def students(request, class_id):
                     student_class_filter.delete()
 
     return render(request, "students.html", context)
+
+
+def manage(request):
+    return render(request, "manage.html")
 
 
 def test(request):
