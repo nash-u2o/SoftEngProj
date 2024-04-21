@@ -175,6 +175,34 @@ def students(request, class_id):
         "class_id": class_id,
     }
 
+    if request.method == "POST":
+        post_dict = request.POST
+
+        # For add - get students of given email. If exist, check if in class. If not, add to class.
+        # For delete - get student of given email. If exist, check if in class. If yes, delete from class
+        if "add" in post_dict:
+            student_filter = Tbl_student.objects.filter(student_email=post_dict["add"])
+            if len(student_filter) != 0:
+                student = student_filter[0]
+                student_class_filter = Tbl_student_class.objects.filter(
+                    student_id=student.student_id, class_id=class_id
+                )
+                if len(student_class_filter) == 0:
+                    Tbl_student_class.objects.create(
+                        student_id=student.student_id, class_id=class_id
+                    )
+        elif "delete" in post_dict:
+            student_filter = Tbl_student.objects.filter(
+                student_email=post_dict["delete"]
+            )
+            if len(student_filter) != 0:
+                student = student_filter[0]
+                student_class_filter = Tbl_student_class.objects.filter(
+                    student_id=student.student_id, class_id=class_id
+                )
+                if len(student_class_filter) != 0:
+                    student_class_filter.delete()
+
     return render(request, "students.html", context)
 
 
