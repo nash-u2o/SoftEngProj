@@ -37,7 +37,7 @@
                         {% if class_id %}
                             <a href="{% url 'info' class_id %}">Info</a>
                             <a href="{% url 'assignments' class_id %}">Assignments</a>
-                            <!--<a href="{% url 'modules' class_id %}">Modules</a>-->
+                            <a href="{% url 'modules' class_id %}">Modules</a>
                             {% if is_teacher %}
                                 <a href="{% url 'students' class_id %}">Students</a>
                             {% endif %}

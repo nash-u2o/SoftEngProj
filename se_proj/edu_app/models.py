@@ -59,3 +59,10 @@ class Tbl_student(models.Model):
 class Tbl_student_class(models.Model):
     student_id = models.IntegerField()
     class_id = models.IntegerField()
+
+# Tbl_grade
+class Tbl_grade(models.Model):
+    student_id = models.IntegerField()
+    assignment_id = models.IntegerField()
+    point= models.IntegerField()
+    grade=models.CharField(max_length=1)
