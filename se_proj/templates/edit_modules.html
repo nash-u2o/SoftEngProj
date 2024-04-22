@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Edit Module{% endblock %}
+
+{% block content %}
+<br><br>
+<h1>Edit Module</h1>
+
+<form method="post" action="{% url 'edit_module' class_id=module.class_id %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="moduleContent">Module Content</label>
+        <textarea class="form-control" id="moduleContent" name="module_content" rows="5">{{ module.class_module }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+{% endblock %}
