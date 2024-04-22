@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tbl_teacher,Tbl_student_teacher,Tbl_student,Tbl_student_class,Tbl_class,Tbl_assignment
+from .models import Tbl_teacher,Tbl_student_teacher,Tbl_student,Tbl_student_class,Tbl_class,Tbl_assignment,Tbl_grade
 # Register your models here.
 
 #Tbl_class_admin
@@ -31,3 +31,10 @@ admin.site.register(Tbl_student,Tbl_student_admin)
 class Tbl_student_class_admin(admin.ModelAdmin):
     list_display = ('id', 'student_id', 'class_id')
 admin.site.register(Tbl_student_class,Tbl_student_class_admin)
+
+#Tbl_grade
+class Tbl_grade_admin(admin.ModelAdmin):
+    list_display = ('id', 'student_id', 'assignment_id', 'point', 'grade')
+admin.site.register(Tbl_grade,Tbl_grade_admin)
+
+
