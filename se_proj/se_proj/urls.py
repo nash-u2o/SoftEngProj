@@ -26,10 +26,11 @@ urlpatterns = [
     path("classpage/", views.classpage, name="classpage"),
     path("text/", views.text, name="text"),
     path("", views.login, name="login"),
-    path("modules/", views.modules, name="modules"),
+    path("modules/<int:class_id>", views.modules, name="modules"),
     path("home/", views.home, name="home"),
     path("info/<int:class_id>/", views.info, name="info"),
     path("test/", views.test, name="test"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("students/<int:class_id>", views.students, name="students"),
+    path('edit-module/<int:class_id>/', views.edit_module, name='edit_module'),
 ]
