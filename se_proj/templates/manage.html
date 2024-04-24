@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="student-form" id="add-form-container" style="padding-top: 10px;">
+        <form method="POST">
+            {% csrf_token %}
+            <h3>Create Student</h3>
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email">
+            <br>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name">
+            <br>
+            <label for="password">Password</label>
+            <input type="text" id="password" name="password">
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="student-form" id="delete-from-container" style="margin-top: 5px;">
+        <form method="POST">
+            {% csrf_token %}
+            <h3>Delete Student</h3>
+            <label for="delete">Email</label>
+            <input type="text" id="delete" name="delete">
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}
+

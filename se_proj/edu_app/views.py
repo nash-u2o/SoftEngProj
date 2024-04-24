@@ -1,9 +1,11 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from edu_app.models import (
     Tbl_assignment,
     Tbl_class,
+    Tbl_grade,
     Tbl_student,
     Tbl_student_class,
+    Tbl_student_teacher,
     Tbl_teacher,
     Test,
 )
@@ -85,25 +87,28 @@ def assignments(request, class_id):
 def modules(request, class_id):
     is_teacher = request.session.get("teacher")
     user_id = request.session.get("id")
-    
+
     if is_teacher:
         modules = Tbl_class.objects.filter(teacher_id=user_id)
     else:
         modules = Tbl_class.objects.filter(class_id=class_id)
-    
-    return render(request, 'modules.html', {'modules': modules, 'is_teacher': is_teacher})
+
+    return render(
+        request,
+        "modules.html",
+        {"modules": modules, "is_teacher": is_teacher, "class_id": class_id},
+    )
+
 
 def edit_module(request, class_id):
-   
-   request.method == 'POST'
-   module_content = request.POST.get('module_content')
-   module = get_object_or_404(Tbl_class, class_id=class_id)
-   module.class_module = module_content
-   module.save()
-   
-   return redirect('modules', class_id=class_id)
-    
 
+    request.method == "POST"
+    module_content = request.POST.get("module_content")
+    module = get_object_or_404(Tbl_class, class_id=class_id)
+    module.class_module = module_content
+    module.save()
+
+    return redirect("modules", class_id=class_id)
 
 
 # To do: Make JS page insert whatever is loaded into the text field
@@ -224,6 +229,30 @@ def students(request, class_id):
 
 
 def manage(request):
+    if request.method == "POST":
+        post_dict = request.POST
+
+        if "delete" in post_dict:
+            # Check if email exists
+            student_info = Tbl_student.objects.filter(student_email=post_dict["delete"])
+            if len(student_info) > 0:
+                student_id = student_info.first().student_id
+                print(student_id)
+                # Delete every entry from every table containing this student ID
+                # Tbl_student_teacher, Tbl_student, Tbl_student_class, Tbl_grade
+                Tbl_grade.objects.filter(student_id=student_id).delete()
+                Tbl_student_class.objects.filter(student_id=student_id).delete()
+                Tbl_student_teacher.objects.filter(student_id=student_id).delete()
+                Tbl_student.objects.filter(student_id=student_id).delete()
+
+        # If all forms for adding exist, create a new student
+        if "email" in post_dict and "name" in post_dict and "password" in post_dict:
+            Tbl_student.objects.create(
+                student_email=post_dict["email"],
+                student_name=post_dict["name"],
+                student_password=post_dict["password"],
+            )
+
     return render(request, "manage.html")
 
 
