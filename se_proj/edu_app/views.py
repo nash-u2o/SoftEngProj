@@ -1,9 +1,11 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from edu_app.models import (
     Tbl_assignment,
     Tbl_class,
+    Tbl_grade,
     Tbl_student,
     Tbl_student_class,
+    Tbl_student_teacher,
     Tbl_teacher,
     Test,
 )
@@ -26,8 +28,6 @@ def classpage(request):
 
 
 def login(request):
-    # Add Later: If session id already assigned, automatically redirect.
-    # Logout option should redirect here and clear all session info
 
     context = {
         "login": True,
@@ -36,13 +36,6 @@ def login(request):
     if request.method == "POST":
         email = request.POST["user"]  # Use email to log in
         password = request.POST["pass"]
-
-        # This would allow direct querying of the DB. Might allow SQL injection so avoid
-        """ 
-        con = sqlite3.connect('db.sqlite3')
-        cur = con.cursor() #Cursor allows us to execute SQL statements and fetch results
-        res = cur.execute("SELECT password FROM edu_app_user WHERE email=?", (email,))
-        """
 
         s_res = Tbl_student.objects.filter(student_email=email)
         t_res = Tbl_teacher.objects.filter(teacher_email=email)
@@ -94,25 +87,28 @@ def assignments(request, class_id):
 def modules(request, class_id):
     is_teacher = request.session.get("teacher")
     user_id = request.session.get("id")
-    
+
     if is_teacher:
         modules = Tbl_class.objects.filter(teacher_id=user_id)
     else:
         modules = Tbl_class.objects.filter(class_id=class_id)
-    
-    return render(request, 'modules.html', {'modules': modules, 'is_teacher': is_teacher})
+
+    return render(
+        request,
+        "modules.html",
+        {"modules": modules, "is_teacher": is_teacher, "class_id": class_id},
+    )
+
 
 def edit_module(request, class_id):
-   
-   request.method == 'POST'
-   module_content = request.POST.get('module_content')
-   module = get_object_or_404(Tbl_class, class_id=class_id)
-   module.class_module = module_content
-   module.save()
-   
-   return redirect('modules', class_id=class_id)
-    
 
+    request.method == "POST"
+    module_content = request.POST.get("module_content")
+    module = get_object_or_404(Tbl_class, class_id=class_id)
+    module.class_module = module_content
+    module.save()
+
+    return redirect("modules", class_id=class_id)
 
 
 # To do: Make JS page insert whatever is loaded into the text field
@@ -165,11 +161,14 @@ def info(request, class_id):
 
 
 def dashboard(request):
+    is_teacher = False
+
     # Get class ids
     id = request.session["id"]
     class_list = []
     if request.session["teacher"]:
         classes = Tbl_class.objects.filter(teacher_id=id)
+        is_teacher = True
     else:
         classes = Tbl_student_class.objects.filter(student_id=id)
 
@@ -183,7 +182,10 @@ def dashboard(request):
         }
         class_list.append(class_info)
 
-    context = {"class_list": class_list}
+    context = {
+        "class_list": class_list,
+        "is_teacher": is_teacher,
+    }
 
     return render(request, "dashboard.html", context)
 
@@ -224,6 +226,34 @@ def students(request, class_id):
                     student_class_filter.delete()
 
     return render(request, "students.html", context)
+
+
+def manage(request):
+    if request.method == "POST":
+        post_dict = request.POST
+
+        if "delete" in post_dict:
+            # Check if email exists
+            student_info = Tbl_student.objects.filter(student_email=post_dict["delete"])
+            if len(student_info) > 0:
+                student_id = student_info.first().student_id
+                print(student_id)
+                # Delete every entry from every table containing this student ID
+                # Tbl_student_teacher, Tbl_student, Tbl_student_class, Tbl_grade
+                Tbl_grade.objects.filter(student_id=student_id).delete()
+                Tbl_student_class.objects.filter(student_id=student_id).delete()
+                Tbl_student_teacher.objects.filter(student_id=student_id).delete()
+                Tbl_student.objects.filter(student_id=student_id).delete()
+
+        # If all forms for adding exist, create a new student
+        if "email" in post_dict and "name" in post_dict and "password" in post_dict:
+            Tbl_student.objects.create(
+                student_email=post_dict["email"],
+                student_name=post_dict["name"],
+                student_password=post_dict["password"],
+            )
+
+    return render(request, "manage.html")
 
 
 def test(request):

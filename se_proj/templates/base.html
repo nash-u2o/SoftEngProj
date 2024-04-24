@@ -28,6 +28,11 @@
                 <div class="sidebar-content">
                     {% block sidebar-content %}
                         <a href="{% url 'dashboard' %}">Home</a>
+                        {% if class_id is None %}
+                            {% if is_teacher %}
+                                <a href="{% url 'manage' %}">Manage Students</a>
+                            {% endif %}
+                        {% endif %}
                         <!--If class_id exists, which it will in subtemplates, add dynamic links-->
                         {% if class_id %}
                             <a href="{% url 'info' class_id %}">Info</a>
@@ -37,6 +42,7 @@
                                 <a href="{% url 'students' class_id %}">Students</a>
                             {% endif %}
                         {% endif %}
+                        <a href="{% url 'login' %}">Logout</a>
                     {% endblock %}
                 </div>
             </div>

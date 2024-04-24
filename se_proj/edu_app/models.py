@@ -41,7 +41,7 @@ class Tbl_teacher(models.Model):
 
 
 # Tbl_student_teacher
-class Tbl_student_teacher(models.Model):  # Don't know if this table is necessary
+class Tbl_student_teacher(models.Model):
     student_id = models.IntegerField()
     teacher_id = models.IntegerField()
 

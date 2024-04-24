@@ -13,7 +13,6 @@ $(function(){
     }
     
     //getSemanticHTML allows for the easy coversion and display of quill objects
-    console.log('here');
     document.getElementById('display').innerHTML = quill.getSemanticHTML();
 
     document.getElementById('submit-button').addEventListener('click', function() {
