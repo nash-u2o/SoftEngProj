@@ -237,7 +237,7 @@ def manage(request):
             student_info = Tbl_student.objects.filter(student_email=post_dict["delete"])
             if len(student_info) > 0:
                 student_id = student_info.first().student_id
-                print(student_id)
+
                 # Delete every entry from every table containing this student ID
                 # Tbl_student_teacher, Tbl_student, Tbl_student_class, Tbl_grade
                 Tbl_grade.objects.filter(student_id=student_id).delete()
