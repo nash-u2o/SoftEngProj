@@ -31,7 +31,6 @@ $(function(){
     // Button Initialization
 
     if(is_teacher == "True"){
-        console.log("here")
         document.getElementsByClassName("edit-button-container")[0].innerHTML = "<button id='edit-button' class='btn btn-success'>Edit</button>";
         document.getElementsByClassName("edit-button-container")[0].classList.add("btn", "btn-success");
     }
