@@ -53,7 +53,7 @@ $(function(){
         document.getElementById('submit-button').addEventListener('click', successClick);
         quill = new Quill('#editor', {
             theme: 'snow',
-            placeholder: 'Type something here, pal.',
+            placeholder: 'Enter Class Information',
         });
         quill.setContents(text_json);
     });

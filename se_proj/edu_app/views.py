@@ -33,6 +33,12 @@ def login(request):
         "login": True,
     }
 
+    # Clear session information to facilitate logout
+    if request.method == "GET":
+        if "id" in request.session:
+            del request.session["teacher"]
+            del request.session["id"]
+
     if request.method == "POST":
         email = request.POST["user"]  # Use email to log in
         password = request.POST["pass"]
@@ -86,12 +92,8 @@ def assignments(request, class_id):
 
 def modules(request, class_id):
     is_teacher = request.session.get("teacher")
-    user_id = request.session.get("id")
 
-    if is_teacher:
-        modules = Tbl_class.objects.filter(teacher_id=user_id)
-    else:
-        modules = Tbl_class.objects.filter(class_id=class_id)
+    modules = Tbl_class.objects.filter(class_id=class_id)
 
     return render(
         request,
@@ -174,10 +176,10 @@ def dashboard(request):
 
     # Use ids to get class info for cards
     for entry in classes:
-        id = entry.class_id
-        name = Tbl_class.objects.filter(class_id=id)[0].class_name
+        class_id = entry.class_id
+        name = Tbl_class.objects.filter(class_id=class_id)[0].class_name
         class_info = {
-            "id": id,
+            "id": class_id,
             "name": name,
         }
         class_list.append(class_info)
@@ -254,6 +256,38 @@ def manage(request):
             )
 
     return render(request, "manage.html")
+
+
+def classes(request):
+    if request.method == "POST":
+        post_dict = request.POST
+
+        if "delete" in post_dict:
+            # Check if class exists
+            class_info = Tbl_class.objects.filter(
+                class_name=post_dict["delete"], teacher_id=request.session["id"]
+            )
+            if len(class_info) > 0:
+                Tbl_class.objects.filter(
+                    class_name=post_dict["delete"], teacher_id=request.session["id"]
+                ).delete()
+                Tbl_student_class.objects.filter(
+                    class_id=class_info[0].class_id
+                ).delete()
+
+        if "create" in post_dict:
+            class_info = Tbl_class.objects.filter(
+                class_name=post_dict["create"], teacher_id=request.session["id"]
+            )
+            if len(class_info) == 0:
+                Tbl_class.objects.create(
+                    class_name=post_dict["create"],
+                    class_info="",
+                    class_module="",
+                    teacher_id=request.session["id"],
+                )
+
+    return render(request, "classes.html")
 
 
 def test(request):
