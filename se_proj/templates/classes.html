@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="class-form" id="add-form-container" style="padding-top: 10px;">
+        <form method="POST">
+            {% csrf_token %}
+            <h3>Create Class</h3>
+            <label for="create">Name</label>
+            <input type="text" id="create" name="create">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="class-form" id="delete-form-container" style="margin-top: 5px;">
+        <form method="POST">
+            {% csrf_token %}
+            <h3>Delete Class</h3>
+            <label for="delete">Name</label>
+            <input type="text" id="delete" name="delete">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}
+

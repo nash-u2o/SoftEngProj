@@ -30,6 +30,7 @@
                         <a href="{% url 'dashboard' %}">Home</a>
                         {% if class_id is None %}
                             {% if is_teacher %}
+                                <a href="{% url 'classes' %}">Manage Classes</a>
                                 <a href="{% url 'manage' %}">Manage Students</a>
                             {% endif %}
                         {% endif %}
