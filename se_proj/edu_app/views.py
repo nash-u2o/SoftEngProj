@@ -7,30 +7,12 @@ from edu_app.models import (
     Tbl_student_class,
     Tbl_student_teacher,
     Tbl_teacher,
-    Test,
 )
 
 
-def index(request):
-    return render(request, "index.html")
-
-
-def home(request):
-    return render(request, "home.html")
-
-
-def base(request):
-    return render(request, "base.html")
-
-
-def classpage(request):
-    return render(request, "classpage.html")
-
-
 def login(request):
-
     context = {
-        "login": True,
+        "login": True,  # If false, display error message
     }
 
     # Clear session information to facilitate logout
@@ -39,12 +21,17 @@ def login(request):
             del request.session["teacher"]
             del request.session["id"]
 
+    # If POST, user has submitted a login form
     if request.method == "POST":
-        email = request.POST["user"]  # Use email to log in
+        email = request.POST["user"]  # Use email to as an identifier
         password = request.POST["pass"]
 
-        s_res = Tbl_student.objects.filter(student_email=email)
-        t_res = Tbl_teacher.objects.filter(teacher_email=email)
+        s_res = Tbl_student.objects.filter(
+            student_email=email
+        )  # Students with given email
+        t_res = Tbl_teacher.objects.filter(
+            teacher_email=email
+        )  # Teachers with given email
         if len(s_res) > 0:
             if s_res[0].student_password == password:  # Successful student login
                 s_id = s_res[0].student_id
@@ -56,7 +43,7 @@ def login(request):
                 return redirect("dashboard")
             else:
                 context["login"] = False
-        elif len(t_res) > 0:
+        if len(t_res) > 0:
             if t_res[0].teacher_password == password:  # Successful teacher login
                 t_id = t_res[0].teacher_id
 
@@ -113,29 +100,6 @@ def edit_module(request, class_id):
     return redirect("modules", class_id=class_id)
 
 
-# To do: Make JS page insert whatever is loaded into the text field
-def text(request):
-    text = ""
-    id_filter = Test.objects.filter(creator_id=request.session["id"])
-    if request.method == "POST":
-        data = request.POST.get("values")  # Get the values sent over by user
-        if len(id_filter) == 0:
-            entry = Test(creator_id=request.session["id"], text=data)
-            entry.save()
-        else:
-            entry = Test.objects.get(creator_id=request.session["id"])
-            entry.text = data
-            entry.save()
-    else:
-        res = Test.objects.filter(creator_id=request.session["id"])
-        if len(res) > 0:
-            text = id_filter[0].text
-
-    context = {"text": text}
-
-    return render(request, "text.html", context)
-
-
 # class_id is passed through django's get syntax. Url in urls.py has been modified for this
 def info(request, class_id):
     text = ""
@@ -148,6 +112,7 @@ def info(request, class_id):
         entry.class_info = data
         entry.save()
 
+    # Get class using class_id
     id_filter = Tbl_class.objects.filter(class_id=class_id)
 
     if len(id_filter) > 0 and id_filter[0].class_info != None:
@@ -168,10 +133,10 @@ def dashboard(request):
     # Get class ids
     id = request.session["id"]
     class_list = []
-    if request.session["teacher"]:
+    if request.session["teacher"]:  # Filter teacher's classes and mark as a teacher
         classes = Tbl_class.objects.filter(teacher_id=id)
         is_teacher = True
-    else:
+    else:  # Filter student's classes
         classes = Tbl_student_class.objects.filter(student_id=id)
 
     # Use ids to get class info for cards
@@ -212,6 +177,7 @@ def students(request, class_id):
                     student_id=student.student_id, class_id=class_id
                 )
                 if len(student_class_filter) == 0:
+                    # Associate student with class
                     Tbl_student_class.objects.create(
                         student_id=student.student_id, class_id=class_id
                     )
@@ -225,6 +191,7 @@ def students(request, class_id):
                     student_id=student.student_id, class_id=class_id
                 )
                 if len(student_class_filter) != 0:
+                    # Disassociate student from class
                     student_class_filter.delete()
 
     return render(request, "students.html", context)
@@ -241,24 +208,27 @@ def manage(request):
                 student_id = student_info.first().student_id
 
                 # Delete every entry from every table containing this student ID
-                # Tbl_student_teacher, Tbl_student, Tbl_student_class, Tbl_grade
                 Tbl_grade.objects.filter(student_id=student_id).delete()
                 Tbl_student_class.objects.filter(student_id=student_id).delete()
                 Tbl_student_teacher.objects.filter(student_id=student_id).delete()
                 Tbl_student.objects.filter(student_id=student_id).delete()
 
-        # If all forms for adding exist, create a new student
+        # If all forms for adding exist and student doesn't exist, create a new student
         if "email" in post_dict and "name" in post_dict and "password" in post_dict:
-            Tbl_student.objects.create(
-                student_email=post_dict["email"],
-                student_name=post_dict["name"],
-                student_password=post_dict["password"],
-            )
+            student_info = Tbl_student.objects.filter(student_email=post_dict["email"])
+            if len(student_info) == 0:
+                Tbl_student.objects.create(
+                    student_email=post_dict["email"],
+                    student_name=post_dict["name"],
+                    student_password=post_dict["password"],
+                )
 
     return render(request, "manage.html")
 
 
 def classes(request):
+
+    # If post, a class is being created or deleted
     if request.method == "POST":
         post_dict = request.POST
 
@@ -267,6 +237,7 @@ def classes(request):
             class_info = Tbl_class.objects.filter(
                 class_name=post_dict["delete"], teacher_id=request.session["id"]
             )
+            # If class exists, delete it and disassociate all students from that class
             if len(class_info) > 0:
                 Tbl_class.objects.filter(
                     class_name=post_dict["delete"], teacher_id=request.session["id"]
@@ -288,7 +259,3 @@ def classes(request):
                 )
 
     return render(request, "classes.html")
-
-
-def test(request):
-    return render(request, "test.html")

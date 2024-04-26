@@ -1,14 +1,5 @@
-/*To do:
-* Get text in python
-* Pass text through the template
-* Throw the text into the div
-* Make a teacher and student view using the session. Teacher will have an edit button somewhere
-*/
-
 $(function(){
-    //See what happens when quill is not assigned anything. Really just needed for getSemanticHtml from delta objects
-
-    //Text Initialization
+    // Text Initialization
 
     var quill;
     quill = new Quill('#hidden-editor', {
@@ -16,6 +7,7 @@ $(function(){
         placeholder: 'Type something here, pal.',
     });
 
+    // To use the text in the form Quill stores it in, we have the escape the newline characters for JSON parsing
     escaped_text = text.replace(/\n/g, '\\n');
     try {
         text_json = JSON.parse(escaped_text);
@@ -39,8 +31,9 @@ $(function(){
 
     // Button Functions 
 
+    // When edit button is clicked, display the Quill editor and put any existing info in it 
     $("#edit-button").on("click", function(){
-        //When inserting html in JS, apply styles afterwards
+        // When inserting html using JS, apply classes afterwards
         document.getElementById("info").innerHTML = 
         "<div class='editor-container'>" + 
             "<div id='editor'>" +
@@ -58,9 +51,12 @@ $(function(){
         quill.setContents(text_json);
     });
 
+    // When submit is clicked, put the contents in the database
     function successClick (){
         const data = quill.getContents();
         const stringify_data = JSON.stringify(data)
+
+        // Send a post request to the view to store info in database. Causes page to reload
         $.ajax({
             url: "",
             type: "POST",
@@ -69,12 +65,5 @@ $(function(){
                 quill.deleteText(0, quill.getLength());
             },
         });
-        document.getElementById("info").innerHTML = quill.getSemanticHTML();
-        text_json = quill.getContents();
-        document.getElementsByClassName("editor-container").innerHTML = 
-        "<div class='edit-button-container'>" + 
-            "<button id='edit-button'>Edit</button>" + 
-        "</div>";
-        document.getElementById('edit-button').classList.add('btn', 'btn-success', 'button-styles');
     };
 });
