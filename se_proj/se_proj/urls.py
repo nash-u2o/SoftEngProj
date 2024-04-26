@@ -20,21 +20,14 @@ from django.urls import path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("index/", views.index, name="index"),
     path("assignments/<int:class_id>", views.assignments, name="assignments"),
-    path("base/", views.base, name="base"),
-    path("classpage/", views.classpage, name="classpage"),
-    path("text/", views.text, name="text"),
     path("", views.login, name="default"),
     path("login/", views.login, name="login"),
     path("modules/<int:class_id>", views.modules, name="modules"),
-    path("home/", views.home, name="home"),
     path("info/<int:class_id>/", views.info, name="info"),
-    path("test/", views.test, name="test"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("students/<int:class_id>", views.students, name="students"),
     path("manage/", views.manage, name="manage"),
     path("edit-module/<int:class_id>/", views.edit_module, name="edit_module"),
-    path("modules/<int:class_id>", views.modules, name="modules"),
     path("classes/", views.classes, name="classes"),
 ]
