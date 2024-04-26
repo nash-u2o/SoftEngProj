@@ -56,7 +56,7 @@ $(function(){
         const data = quill.getContents();
         const stringify_data = JSON.stringify(data)
 
-        // Send a post request to the view to store info in database. Causes page to reload
+        // Send a post request to the view to store info in database
         $.ajax({
             url: "",
             type: "POST",
@@ -65,5 +65,12 @@ $(function(){
                 quill.deleteText(0, quill.getLength());
             },
         });
+        document.getElementById("info").innerHTML = quill.getSemanticHTML();
+        text_json = quill.getContents();
+        document.getElementsByClassName("editor-container").innerHTML = 
+        "<div class='edit-button-container'>" + 
+            "<button id='edit-button'>Edit</button>" + 
+        "</div>";
+        document.getElementById('edit-button').classList.add('btn', 'btn-success', 'button-styles');
     };
 });

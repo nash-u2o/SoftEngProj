@@ -62,11 +62,7 @@ def login(request):
 def assignments(request, class_id):
 
     is_teacher = request.session["teacher"]
-    user_id = request.session["id"]
-    student_classes = Tbl_student_class.objects.filter(student_id=user_id).values_list(
-        "class_id", flat=True
-    )
-    student_assignments = Tbl_assignment.objects.filter(class_id__in=student_classes)
+    student_assignments = Tbl_assignment.objects.filter(class_id=class_id)
 
     context = {
         "assignments": student_assignments,
